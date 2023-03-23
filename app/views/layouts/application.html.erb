@@ -25,7 +25,7 @@
     <% else %>
        <li><a href="/users">All users</a></li>
     <li><a href="/photos">All public photos</a></li>
-    <li><a href="/edit_user_profile"><%= session.fetch(:user_id) %></li>
+    <li><a href="/edit_user_profile"><%= @current_user.username %></a></li>
     <li><a href="/user_sign_out">Sign out</a></li>
 <% end %>
   </ul>

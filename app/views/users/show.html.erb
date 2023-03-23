@@ -1,52 +1,11 @@
 <div>
   <div>
     <h1>
-      User #<%= @the_user.id %> details
+      <%= @the_user.username %> 
     </h1>
 
-    <div>
-      <div>
-        <a href="/users">
-          Go back
-        </a>
-      </div>
-
-      <div>
-        <a href="/delete_user/<%= @the_user.id %>">
-          Delete user
-        </a>
-      </div>
-    </div>
-
     <dl>
-      <dt>
-        Username
-      </dt>
-      <dd>
-        <%= @the_user.username %>
-      </dd>
-
-      <dt>
-        Comments count
-      </dt>
-      <dd>
-        <%= @the_user.comments_count %>
-      </dd>
-
-      <dt>
-        Likes count
-      </dt>
-      <dd>
-        <%= @the_user.likes_count %>
-      </dd>
-
-      <dt>
-        Password digest
-      </dt>
-      <dd>
-        <%= @the_user.password_digest %>
-      </dd>
-
+      
       <dt>
         Private
       </dt>
@@ -55,25 +14,19 @@
       </dd>
 
       <dt>
-        Email
+       followers
       </dt>
       <dd>
-        <%= @the_user.email %>
+        <%= @the_user.followers.count %>
+        <div>
+      <a href="/delete_follow_request/<%= @the_user.username %>">Unfollow</a>
+        </div>
       </dd>
 
-      <dt>
-        Created at
-      </dt>
-      <dd>
-        <%= time_ago_in_words(@the_user.created_at) %> ago
-      </dd>
+      
 
-      <dt>
-        Updated at
-      </dt>
-      <dd>
-        <%= time_ago_in_words(@the_user.updated_at) %> ago
-      </dd>
+     
+
     </dl>
   </div>
 </div>
@@ -144,4 +97,3 @@
 </div>
 
 <hr>
-
