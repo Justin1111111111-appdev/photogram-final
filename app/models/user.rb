@@ -36,4 +36,6 @@ class User < ApplicationRecord
   has_many(:feed, { :through => :following, :source => :own_photos })
 
   has_many(:activity, { :through => :following, :source => :liked_photos })
+
+  #mount_uploader :image, Photo
 end

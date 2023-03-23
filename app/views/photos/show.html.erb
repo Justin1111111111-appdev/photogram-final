@@ -113,7 +113,7 @@
     </td>
 
     <td>
-      <%= comment.created_at %>
+      <%= time_ago_in_words(comment.created_at) %> ago 
     </td>
   </tr>
   
@@ -122,7 +122,7 @@
 
 <h3>Add a new comment</h3>
 
-<form action="/insert_comment_record"> <%#method="post"> was next to comment record %>
+<form action="/insert_comment"> <%#method="post"> was next to comment record %>
   <input id="browser_photo_id" type="hidden" value="<%= @the_photo.id %>" name="input_photo_id">
 
 
@@ -132,10 +132,8 @@
   <button>Add comment</button>
 </form>
 
-      
+     
 
     </dl>
   </div>
 </div>
-
-<hr>

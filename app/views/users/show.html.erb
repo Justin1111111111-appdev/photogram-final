@@ -18,19 +18,115 @@
       </dt>
       <dd>
         <%= @the_user.followers.count %>
+
+        <form action="/insert_follow_request" method="post">
+              <input type="hidden" name="query_recipient_id" value="query_sender_id">
+              <button>
+                Follow
+              </button>
+            </form>
+
         <div>
-      <a href="/delete_follow_request/<%= @the_user.username %>">Unfollow</a>
+      <a href="/delete_follow_request/<%= @the_user.username %>">Follow</a>
         </div>
       </dd>
 
-      
-
-     
-
+      <dt>
+       followers
+      </dt>
+      <dd>
+        <%= @the_user.following.count %>
+      </dd>
+      <nav>
+  <ul>
+    <li>
+      <a href="/users/<%= @the_user.id %>">Profile</a>
+    </li>
+    <li>
+      <a href="/users/<%= @the_user.id %>/liked_photos">Liked photos</a>
+    </li>
+    <li>
+      <a href="/users/<%= @the_user.id %>/feed">Feed</a>
+    </li>
+    <li>
+      <a href="/users/<%= @the_user.id %>/discover">Discover</a>
+    </li>
+  </ul>
+</nav>
     </dl>
   </div>
 </div>
 
+<h2>Own photos (<%= @the_user.own_photos.count %>)</h2>
+
+<table border="1">
+  <tr>
+    <th>
+      Image
+    </th>
+
+    <th>
+      Owner
+    </th>
+
+    <th>
+      Caption
+    </th>
+
+    <th>
+      Posted
+    </th>
+
+    <th></th>
+  </tr>
+
+  <% @the_user.own_photos.each do |photo| %>
+  <tr>
+    <td>
+      <img src="<%= photo.image %>">
+    </td>
+
+    <td>
+      <%= photo.id %>
+    </td>
+
+    <td>
+      <%= photo.caption %>
+    </td>
+
+    <td>
+      <%= time_ago_in_words(photo.created_at) %> ago 
+    </td>
+    
+    <td>
+      <a href="/photos/<%= photo.id %>">
+        Show details
+      </a>
+    </td>
+  </tr>
+
+  <% end %>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<hr>
+<hr>
+<hr>
+<hr>
+<hr>
+<hr>
+<hr>
 <hr>
 
 

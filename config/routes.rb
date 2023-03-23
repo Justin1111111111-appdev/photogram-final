@@ -3,6 +3,7 @@ Rails.application.routes.draw do
 
   # CREATE
   post("/insert_comment", { :controller => "comments", :action => "create" })
+  get("/insert_comment", { :controller => "comments", :action => "create" })
           
   # READ
   get("/comments", { :controller => "comments", :action => "index" })

@@ -6,10 +6,10 @@
   </div>
 </div>
 
-<hr>
+
 <div>
   <div>
-    <table border="1">
+    <table border="">
       <tr>
 
         <th>
@@ -41,23 +41,17 @@
         </td>
 
         <td>
-                    <form action="/insert_follow_request" method="post">
+              <form action="/insert_follow_request" method="post">
               <input type="hidden" name="query_recipient_id" value="query_sender_id">
-
               <button>
                 Follow
               </button>
             </form>
 
-           Request sent.
+           Request sent. <a href="/delete_follow_request/<%= a_user.id %>"> Cancel</a>
 
-            <a href="/delete_follow_request/<%= a_user.id %>">
-              Cancel
-            </a>
-
-            <a href="/delete_follow_request/2027">
-              Unfollow
-            </a>
+            <a href="/delete_follow_request/<%= a_user.id %>"> Unfollow</a>
+            
          </td>
 
         <td>
