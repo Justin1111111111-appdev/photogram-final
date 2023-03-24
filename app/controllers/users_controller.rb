@@ -25,7 +25,7 @@ class UsersController < ApplicationController
     the_user.password_digest = params.fetch("query_password_digest")
     the_user.private = params.fetch("query_private", false)
     the_user.email = params.fetch("query_email")
-    @the_user.image = params.fetch(:image)
+    
 
     if the_user.valid?
       the_user.save
@@ -45,7 +45,7 @@ class UsersController < ApplicationController
     the_user.password_digest = params.fetch("query_password_digest")
     the_user.private = params.fetch("query_private", false)
     the_user.email = params.fetch("query_email")
-    @the_user.image = params.fetch(:image)
+    
 
     if the_user.valid?
       the_user.save

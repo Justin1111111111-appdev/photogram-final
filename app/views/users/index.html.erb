@@ -9,9 +9,8 @@
 
 <div>
   <div>
-    <table border="">
+    <table border="1">
       <tr>
-
         <th>
           Username
         </th>
@@ -30,41 +29,41 @@
 
       <% @list_of_users.each do |a_user| %>
       <tr>
-
-
         <td>
           <%= a_user.username %>
         </td>
-
         <td>
           <%= a_user.private ? "Yes" : "No" %>
         </td>
 
+    <% if @current_user  %> 
+    <% request = FollowRequest.find_by(sender_id: @current_user.id, recipient_id: a_user.id)  %>
+      <% if request.nil? %>
         <td>
-              <form action="/insert_follow_request" method="post">
-              <input type="hidden" name="query_recipient_id" value="query_sender_id">
+            <form action="/insert_follow_request" method="post">
+              <input type="hidden" name="query_recipient_id" value="<%= a_user.id %>">
+              <input type="hidden" name="query_sender_id" value="<%= @current_user.id %>">
+              <input type="hidden" name="query_status_id" value="pending">
               <button>
                 Follow
               </button>
             </form>
+          </td>
+          
+        <% elsif @the_user.private %>
+             Request sent. <a href="/delete_follow_request/<%= a_user.id %>"> Cancel</a>
 
-           Request sent. <a href="/delete_follow_request/<%= a_user.id %>"> Cancel</a>
-
+        <% else %>
             <a href="/delete_follow_request/<%= a_user.id %>"> Unfollow</a>
-            
-         </td>
-
-        <td>
+        <% end %>
+      <% end %>
+         <td>
           <a href="/users/<%= a_user.id %>">
             Show details
           </a>
         </td>
-
-
       </tr>
       <% end %>
     </table>
   </div>
 </div>
-
-<hr>

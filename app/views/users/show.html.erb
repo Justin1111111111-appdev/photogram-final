@@ -14,25 +14,45 @@
       </dd>
 
       <dt>
-       followers
+       Followers
       </dt>
       <dd>
         <%= @the_user.followers.count %>
 
-        <form action="/insert_follow_request" method="post">
-              <input type="hidden" name="query_recipient_id" value="query_sender_id">
+        <% if @current_user  %> 
+    <% request = FollowRequest.find_by(sender_id: @current_user.id, recipient_id: @the_user.id)  %>
+    <% if request.nil? %>
+        <td>
+              <form action="/insert_follow_request" method="post">
+              <input type="hidden" name="query_recipient_id" value="<%= @the_user.id %>">
+              <input type="hidden" name="query_sender_id" value="<%= @current_user.id %>">
+              <input type="hidden" name="query_status_id" value="pending">
               <button>
                 Follow
               </button>
             </form>
 
-        <div>
-      <a href="/delete_follow_request/<%= @the_user.username %>">Follow</a>
+   <% elsif @the_user.private %>
+           Request sent. <a href="/delete_follow_request/<%= @the_user.id %>"> Cancel</a>
+  <% else %>
+            <a href="/delete_follow_request/<%= @the_user.id %>"> Unfollow</a> 
+         </td>
+        <td>
+          <a href="/users/<%= @the_user.id %>">
+            Show details
+          </a>
+        </td>
+<% end %>
+<% end %>
+      </tr>
+      <% end %>
+
+        <div>   <a href="/delete_follow_request/<%= @the_user.username %>">Follow</a>
         </div>
       </dd>
 
       <dt>
-       followers
+       Followers
       </dt>
       <dd>
         <%= @the_user.following.count %>
@@ -87,7 +107,7 @@
     </td>
 
     <td>
-      <%= photo.owner_id %>
+      <%= photo.owner.username %>
     </td>
 
     <td>
