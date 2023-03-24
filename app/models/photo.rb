@@ -12,7 +12,10 @@
 #  owner_id       :integer
 #
 class Photo < ApplicationRecord
-  belongs_to(:owner, { :required => true, :class_name => "User", :foreign_key => "owner_id", :counter_cache => :own_photos_count })
+
+  mount_uploader :image, ImageUploader
+
+  belongs_to(:owner, { :required => true, :class_name => "User", :foreign_key => "owner_id" })
 
   has_many(:likes, { :class_name => "Like", :foreign_key => "photo_id", :dependent => :destroy })
 
@@ -28,5 +31,8 @@ class Photo < ApplicationRecord
 
   validates(:image, { :presence => true })
 
-  #mount_uploader :image, Photo
+  #def fan_list
+    #return self.fans.map_relation_to_array(:username).to_sentence
+  #end
+
 end

@@ -3,6 +3,7 @@ Rails.application.routes.draw do
 
   # CREATE
   post("/insert_comment", { :controller => "comments", :action => "create" })
+
   get("/insert_comment", { :controller => "comments", :action => "create" })
           
   # READ
@@ -42,6 +43,8 @@ Rails.application.routes.draw do
 
   # CREATE
   post("/insert_like", { :controller => "likes", :action => "create" })
+
+  
           
   # READ
   get("/likes", { :controller => "likes", :action => "index" })

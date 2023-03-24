@@ -1,7 +1,7 @@
 <div>
   <div>
     <h1>
-      Photo details
+      Photo Details
     </h1>
 
     <dt>
@@ -51,7 +51,7 @@
         Fans
       </dt>
       <dd>
-        <%= @the_photo.fans %>
+        <%= @the_photo.fans.each %>
       </dd>
 
 <% if session.fetch(:user_id) == @the_photo.owner_id %>
