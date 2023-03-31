@@ -1,22 +1,34 @@
 Rails.application.routes.draw do
-  # Routes for the Comment resource:
+
+  get("/", { :controller => "application", :action => "index" }) 
+
+  get("/users", { :controller => "application", :action => "index" })
+  
+  get("/users/:path_username", { :controller => "application", :action => "show" })
+
+  get("/users/:path_username/liked_photos", { :controller => "application", :action => "liked_photos" })
+
+  get("/users/:path_username/feed", { :controller => "application", :action => "feed" })
+
+  get("/users/:path_username/discover", { :controller => "application", :action => "discover" })
+
+
+  # Routes for the Like resource:
 
   # CREATE
-  post("/insert_comment", { :controller => "comments", :action => "create" })
-
-  get("/insert_comment", { :controller => "comments", :action => "create" })
+  post("/insert_like", { :controller => "likes", :action => "create" })
           
   # READ
-  get("/comments", { :controller => "comments", :action => "index" })
+  get("/likes", { :controller => "likes", :action => "index" })
   
-  get("/comments/:path_id", { :controller => "comments", :action => "show" })
+  get("/likes/:path_id", { :controller => "likes", :action => "show" })
   
   # UPDATE
   
-  post("/modify_comment/:path_id", { :controller => "comments", :action => "update" })
+  post("/modify_like/:path_id", { :controller => "likes", :action => "update" })
   
   # DELETE
-  get("/delete_comment/:path_id", { :controller => "comments", :action => "destroy" })
+  get("/delete_like/:path_id", { :controller => "likes", :action => "destroy" })
 
   #------------------------------
 
@@ -39,24 +51,22 @@ Rails.application.routes.draw do
 
   #------------------------------
 
-  # Routes for the Like resource:
+  # Routes for the Comment resource:
 
   # CREATE
-  post("/insert_like", { :controller => "likes", :action => "create" })
-
-  
+  post("/insert_comment", { :controller => "comments", :action => "create" })
           
   # READ
-  get("/likes", { :controller => "likes", :action => "index" })
+  get("/comments", { :controller => "comments", :action => "index" })
   
-  get("/likes/:path_id", { :controller => "likes", :action => "show" })
+  get("/comments/:path_id", { :controller => "comments", :action => "show" })
   
   # UPDATE
   
-  post("/modify_like/:path_id", { :controller => "likes", :action => "update" })
+  post("/modify_comment/:path_id", { :controller => "comments", :action => "update" })
   
   # DELETE
-  get("/delete_like/:path_id", { :controller => "likes", :action => "destroy" })
+  get("/delete_comment/:path_id", { :controller => "comments", :action => "destroy" })
 
   #------------------------------
 
@@ -76,6 +86,8 @@ Rails.application.routes.draw do
   
   # DELETE
   get("/delete_photo/:path_id", { :controller => "photos", :action => "destroy" })
+
+  
 
   #------------------------------
 
@@ -103,17 +115,6 @@ Rails.application.routes.draw do
   
   # SIGN OUT        
   get("/user_sign_out", { :controller => "user_authentication", :action => "destroy_cookies" })
-
-   # READ
-   get("/", {:controller => "users", :action => "index"})
-   get("/users", {:controller => "users", :action => "index"})
-   get("/users/:the_username", {:controller => "users", :action => "show"})
- 
-   # UPDATE
-   get("/update_user/:the_user_id", {:controller => "users", :action => "update" })
- 
-   # DELETE
-   get("/delete_user/:the_user_id", {:controller => "users", :action => "destroy"})
              
   #------------------------------
 

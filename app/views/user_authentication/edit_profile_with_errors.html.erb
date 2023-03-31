@@ -14,12 +14,12 @@
     <form action="/modify_user" method="post">
               
       <div>
-        <label for="username_box">Username</label>
+        <label for="email_box">Email</label>
           
-        <input id="username_box" name="query_username" value="<%= @current_user.username %>">
+        <input id="email_box" name="query_email" value="<%= @current_user.email %>">
           
       </div>
-                      
+                                    
       <div>
         <label for="comments_count_box">Comments count</label>
           
@@ -33,7 +33,7 @@
         <input id="likes_count_box" name="query_likes_count" value="<%= @current_user.likes_count %>">
           
       </div>
-                                    
+                      
       <div>
         <label for="private_box">Private</label>
           
@@ -42,9 +42,9 @@
       </div>
                       
       <div>
-        <label for="email_box">Email</label>
+        <label for="username_box">Username</label>
           
-        <input id="email_box" name="query_email" value="<%= @current_user.email %>">
+        <input id="username_box" name="query_username" value="<%= @current_user.username %>">
           
       </div>
               

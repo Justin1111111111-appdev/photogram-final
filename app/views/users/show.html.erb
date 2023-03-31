@@ -1,11 +1,10 @@
 <div>
   <div>
     <h1>
-      <%= @the_user.username %> 
+      <%= @the_user.username %>
     </h1>
 
     <dl>
-      
       <dt>
         Private
       </dt>
@@ -14,202 +13,156 @@
       </dd>
 
       <dt>
-       Followers
+        Followers
       </dt>
       <dd>
-        <%= @the_user.followers.count %>
+        <%= @the_user.receivedfollowrequests.count %>
+      </dd>
 
-        <% if @current_user  %> 
-    <% request = FollowRequest.find_by(sender_id: @current_user.id, recipient_id: @the_user.id)  %>
-    <% if request.nil? %>
-        <td>
-              <form action="/insert_follow_request" method="post">
+      <dt>
+        <strong>Pending follow requests</strong>
+      </dt>
+      <dd>
+        <% @list_of_follow_requests.where({ :recipient_id => @current_user.id }).each do |a_follow_request| %>
+          <% if a_follow_request.status == "pending" %>
+            <%= a_follow_request.sender.username %>
+            <div>
+              <form action="/modify_follow_request/<%= a_follow_request.id %>"  method="post" >
+
+                  <input type="hidden" id="recipient_id_box" name="query_recipient_id" value="<%= a_follow_request.recipient_id %>">
+
+
+                  <input type="hidden" id="sender_id_box" name="query_sender_id" value="<%= a_follow_request.sender_id %>">
+
+                <input type="hidden" id="status_box" name="query_status">
+
+                <button>
+                  Accept
+                </button>
+              </div>
+            <% end %>
+          <% end %>
+        </dd>
+
+        <dd>
+          <% if @current_user.id != @the_user.id %>
+            <form action="/insert_follow_request" method="post">
               <input type="hidden" name="query_recipient_id" value="<%= @the_user.id %>">
-              <input type="hidden" name="query_sender_id" value="<%= @current_user.id %>">
-              <input type="hidden" name="query_status_id" value="pending">
+
               <button>
                 Follow
               </button>
             </form>
+            <a href="/delete_follow_request/<%= %>">
+              Unfollow
+            </a>
+          </dd>
+        <% end %>
+        <dt>
+          Following
+        </dt>
+        <dd>
+          <%= @the_user.sentfollowrequests.count %>
+        </dd>
 
-   <% elsif @the_user.private %>
-           Request sent. <a href="/delete_follow_request/<%= @the_user.id %>"> Cancel</a>
-  <% else %>
-            <a href="/delete_follow_request/<%= @the_user.id %>"> Unfollow</a> 
-         </td>
-        <td>
-          <a href="/users/<%= @the_user.id %>">
-            Show details
-          </a>
-        </td>
-<% end %>
-<% end %>
-      </tr>
-      <% end %>
+        <% if @the_user.id == @current_user.id %>
+          <dt>Edit user</dt>
+          <dd>
+            <form action="/modify_user/" method="post">
+              <label for="browser_username">Username</label>
+              <input id="browser_username" type="text" name="query_username" placeholder="Enter a username..." value="<%= @current_user.username %>">
 
-        <div>   <a href="/delete_follow_request/<%= @the_user.username %>">Follow</a>
-        </div>
-      </dd>
+              <label for="browser_private">Private?</label>
+              <input id="browser_private" type="checkbox" name="query_private">
 
-      <dt>
-       Followers
-      </dt>
-      <dd>
-        <%= @the_user.following.count %>
-      </dd>
+              <button>Update user</button>
+            </form>
+          </dd>
+        <% end %>
+
+      </div>
+
       <nav>
-  <ul>
-    <li>
-      <a href="/users/<%= @the_user.id %>">Profile</a>
-    </li>
-    <li>
-      <a href="/users/<%= @the_user.id %>/liked_photos">Liked photos</a>
-    </li>
-    <li>
-      <a href="/users/<%= @the_user.id %>/feed">Feed</a>
-    </li>
-    <li>
-      <a href="/users/<%= @the_user.id %>/discover">Discover</a>
-    </li>
-  </ul>
-</nav>
-    </dl>
-  </div>
-</div>
+        <ul>
+          <li>
+            <a href="/users/<%= @the_user.username %>">Profile</a>
+          </li>
+          <li>
+            <a href="/users/<%= @the_user.username %>/liked_photos">Liked photos</a>
+          </li>
+          <li>
+            <a href="/users/<%= @the_user.username %>/feed">Feed</a>
+          </li>
+          <li>
+            <a href="/users/<%= @the_user.username %>/discover">Discover</a>
+          </li>
+        </ul>
+      </nav>
 
-<h2>Own photos (<%= @the_user.own_photos.count %>)</h2>
+    </div>
 
-<table border="1">
-  <tr>
-    <th>
-      Image
-    </th>
+    <hr>
 
-    <th>
-      Owner
-    </th>
+    <h2>Own photos (<%= @the_user.photos.count%>)</h2>
 
-    <th>
-      Caption
-    </th>
-
-    <th>
-      Posted
-    </th>
-
-    <th></th>
-  </tr>
-
-  <% @the_user.own_photos.each do |photo| %>
-  <tr>
-    <td>
-      <img src="<%= photo.image %>">
-    </td>
-
-    <td>
-      <%= photo.owner.username %>
-    </td>
-
-    <td>
-      <%= photo.caption %>
-    </td>
-
-    <td>
-      <%= time_ago_in_words(photo.created_at) %> ago 
-    </td>
-    
-    <td>
-      <a href="/photos/<%= photo.id %>">
-        Show details
-      </a>
-    </td>
-  </tr>
-
-  <% end %>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<hr>
-<hr>
-<hr>
-<hr>
-<hr>
-<hr>
-<hr>
-<hr>
-
-
-<div>
-  <div>
-    <h2>
-      Edit user
-    </h2>
-
-    <form action="/modify_user/<%= @the_user.id %>"  method="post" >
+    <div>
       <div>
-        <label for="username_box">
-          Username
-        </label>
+        <table border="1">
+          <tr>
+            <th>
+              Image
+            </th>
 
-        <input type="text" id="username_box" name="query_username" value="<%= @the_user.username %>">
+            <th>
+              Owner
+            </th>
+
+            <th>
+              Caption
+            </th>
+
+            <th>
+              Posted
+            </th>
+
+            <th>
+              Likes
+            </th>
+
+            <th>
+            </th>
+
+          </tr>
+
+          <% @the_user.photos.each do |photo| %>
+            <tr>
+              <td>
+                <img src="<%= photo.image %>">
+              </td>
+
+              <td>
+                <%= photo.owner.username %>
+              </td>
+
+              <td>
+                <%= photo.caption %>
+              </td>
+
+              <td>
+                <%= time_ago_in_words(photo.created_at) %> ago
+              </td>
+
+              <td>
+                <%= photo.likes_count %>
+              </td>
+
+              <td>
+                <a href="/photos/<%= photo.id %>">
+                  Show details
+                </a>
+              </td>
+            </tr>
+          <% end %>
+        </table>
       </div>
-
-      <div>
-        <label for="comments_count_box">
-          Comments count
-        </label>
-
-        <input type="text" id="comments_count_box" name="query_comments_count" value="<%= @the_user.comments_count %>">
-      </div>
-
-      <div>
-        <label for="likes_count_box">
-          Likes count
-        </label>
-
-        <input type="text" id="likes_count_box" name="query_likes_count" value="<%= @the_user.likes_count %>">
-      </div>
-
-      <div>
-        <label for="password_digest_box">
-          Password digest
-        </label>
-
-        <input type="text" id="password_digest_box" name="query_password_digest" value="<%= @the_user.password_digest %>">
-      </div>
-
-      <div>
-        <input type="checkbox" id="private_box" name="query_private" value="1" <%= "checked" if @the_user.private %>>
-
-        <label for="private_box">
-            Private
-        </label>
-      </div>
-
-      <div>
-        <label for="email_box">
-          Email
-        </label>
-
-        <input type="text" id="email_box" name="query_email" value="<%= @the_user.email %>">
-      </div>
-
-      <button>
-        Update user
-      </button>
-    </form>
-  </div>
-</div>
-
-<hr>
+    </div>
